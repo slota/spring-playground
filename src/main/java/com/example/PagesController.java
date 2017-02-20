@@ -7,6 +7,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 /**
@@ -25,7 +27,7 @@ public class PagesController {
         return "You're a poster";
     }
 
-    @PatchMapping("/pathTask")
+    @PatchMapping("/patchTask")
     public String patchTask(){
         return "Patch";
     }
@@ -33,5 +35,20 @@ public class PagesController {
     @DeleteMapping("/deleteTask")
     public String deleteTask(){
         return "delete";
+    }
+
+    @GetMapping("/vehicles")
+    public String vehicles(@RequestParam String year, @RequestParam String doors){
+        return String.format("year is: %s, and number is: %s", year, doors);
+    }
+
+    @GetMapping("/hash")
+    public String vehicles(@RequestParam Map queryString){
+        return queryString.toString();
+    }
+
+    @GetMapping("/tasks")
+    public String getTasks(TaskInfo taskInfo) {
+        return String.format("sort-by is %s; owner is %s", taskInfo.getSortBy(), taskInfo.getOwner());
     }
 }
