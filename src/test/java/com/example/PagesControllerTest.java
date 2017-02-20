@@ -86,4 +86,28 @@ public class PagesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("sort-by is title; owner is Chloe"));
     }
+
+    @Test
+    public void namePath() throws Exception {
+        TaskInfo task = new TaskInfo();
+        this.mvc.perform(get("/tv-shows/genre/fantasy/length/1h"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("genre:fantasy length:1h"));
+    }
+
+    @Test
+    public void hashPath() throws Exception {
+        TaskInfo task = new TaskInfo();
+        this.mvc.perform(get("/test/house/stark/name/ned"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("{house=stark, name=ned}"));
+    }
+
+    @Test
+    public void objectPath() throws Exception {
+        TaskInfo task = new TaskInfo();
+        this.mvc.perform(get("/test/tasks/hola/comments/boom"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("taskId is hola; commentId is boom"));
+    }
 }

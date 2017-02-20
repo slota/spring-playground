@@ -51,4 +51,19 @@ public class PagesController {
     public String getTasks(TaskInfo taskInfo) {
         return String.format("sort-by is %s; owner is %s", taskInfo.getSortBy(), taskInfo.getOwner());
     }
+
+    @GetMapping("/tv-shows/genre/{g}/length/{h}") // matches /individual-example/foo/bar
+    public String getIndividualParams(@PathVariable String g, @PathVariable("h") String h) {
+        return String.format("genre:%s length:%s", g, h);
+    }
+
+    @GetMapping("/test/house/{house}/name/{name}")
+    public String getCommentsForTask(@PathVariable Map pathVariables) {
+        return pathVariables.toString(); // {taskId=46, commentId=35}
+    }
+
+    @GetMapping("/test/tasks/{taskId}/comments/{commentId}")
+    public String getCommentsForTask(TaskId ids) {
+        return String.format("taskId is %s; commentId is %s", ids.getTaskId(), ids.getCommentId());
+    }
 }
