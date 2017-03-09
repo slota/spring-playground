@@ -66,4 +66,9 @@ public class PagesController {
     public String getCommentsForTask(TaskId ids) {
         return String.format("taskId is %s; commentId is %s", ids.getTaskId(), ids.getCommentId());
     }
+
+    @GetMapping("/math/pi")
+    public String getPi(){
+        return String.format("3.141592653589793");
+    }
 }
