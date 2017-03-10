@@ -15,14 +15,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by johnslota on 2/19/17.
- */
 
+/**
+ * Created by johnslota on 3/10/17.
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(PagesController.class)
-
-
 public class PagesControllerTest {
     @Autowired
     MockMvc mvc;
@@ -44,6 +42,16 @@ public class PagesControllerTest {
         this.mvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(content().string("Patch"));
+
+    }
+
+    @Test
+    public void testPost() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.post("/tasks");
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("You're a poster"));
 
     }
 
@@ -117,4 +125,65 @@ public class PagesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("3.141592653589793"));
     }
+
+    @Test
+    public void mathCalculateAdd() throws Exception {
+        this.mvc.perform(get("/math/calculate?operation=add&x=4&y=6"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("10"));
+    }
+
+    @Test
+    public void mathCalculateMultiply() throws Exception {
+        this.mvc.perform(get("/math/calculate?operation=multiply&x=4&y=6"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("24"));
+    }
+
+    @Test
+    public void mathCalculateSubtract() throws Exception {
+        this.mvc.perform(get("/math/calculate?operation=subtract&x=4&y=6"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("-2"));
+    }
+
+    @Test
+    public void mathCalculateDefault() throws Exception {
+        this.mvc.perform(get("/math/calculate?x=30&y=5"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("35"));
+    }
+
+    @Test
+    public void mathSum() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.post("/math/sum?n=4&n=5&n=6");
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("15"));
+
+    }
+
+
+    @Test
+    public void volumeOne() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.post("/math/volume/3/4/5");
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("60"));
+
+    }
+
+    @Test
+    public void volumeTwo() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders.post("/math/volume/5/5/5");
+
+        this.mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("125"));
+
+
+    }
 }
+

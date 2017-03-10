@@ -1,49 +1,49 @@
 package com.example;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.test.web.servlet.RequestBuilder;
+//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.Map;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
-/**
- * Created by johnslota on 2/19/17.
- */
 @RestController
 public class PagesController {
 
     @GetMapping("/hello")
-    public String sayHello(){
+    public String sayHello() {
         return "Hello World";
     }
 
     @PostMapping("/tasks")
-    public String createTask(){
+    public String createTask() {
         return "You're a poster";
     }
 
     @PatchMapping("/patchTask")
-    public String patchTask(){
+    public String patchTask() {
         return "Patch";
     }
 
     @DeleteMapping("/deleteTask")
-    public String deleteTask(){
+    public String deleteTask() {
         return "delete";
     }
 
     @GetMapping("/vehicles")
-    public String vehicles(@RequestParam String year, @RequestParam String doors){
+    public String vehicles(@RequestParam String year, @RequestParam String doors) {
         return String.format("year is: %s, and number is: %s", year, doors);
     }
 
     @GetMapping("/hash")
-    public String vehicles(@RequestParam Map queryString){
+    public String vehicles(@RequestParam Map queryString) {
         return queryString.toString();
     }
 
@@ -68,7 +68,38 @@ public class PagesController {
     }
 
     @GetMapping("/math/pi")
-    public String getPi(){
+    public String getPi() {
         return String.format("3.141592653589793");
     }
+
+    @GetMapping("/math/calculate")
+    public String calculate(@RequestParam(value = "operation", defaultValue = "add") String operation, @RequestParam String x, @RequestParam String y) {
+        System.out.println(operation);
+        if (operation.equals("subtract")) return Integer.toString((Integer.parseInt(x) - Integer.parseInt(y)));
+        if (operation.equals("multiply")) return Integer.toString((Integer.parseInt(x) * Integer.parseInt(y)));
+        return Integer.toString((Integer.parseInt(x) + Integer.parseInt(y)));
+
+    }
+
+    @PostMapping("/math/sum")
+    public String sum(@RequestParam MultiValueMap<String, String> numbers) {
+        Iterator values = numbers.get("n").iterator();
+
+        int total = 0;
+
+        for (int i = 0; i < numbers.get("n").size(); i++) {
+            total += Integer.parseInt(values.next().toString());
+        }
+
+
+        return Integer.toString(total);
+    }
+
+    @PostMapping("/math/volume/{x}/{y}/{z}")
+    public String sum(@PathVariable String x, @PathVariable String y, @PathVariable String z) {
+
+
+        return Integer.toString((Integer.parseInt(x) * Integer.parseInt(y) * Integer.parseInt(z)));
+    }
+
 }
